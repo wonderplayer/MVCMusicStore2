@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using MVCMusicStore2.Models;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MVCMusicStore2.Controllers
@@ -6,25 +8,28 @@ namespace MVCMusicStore2.Controllers
     public class StoreController : Controller
     {
         // GET: Store
-        public string Index()
+        public ActionResult Index()
         {
-            return "Hello from Store.Index()";
+            var genres = new List<Genre> {
+                new Genre {Name = "Disco" },
+                new Genre {Name = "Jazz" },
+                new Genre {Name = "Rock" }
+            };
+            return View(genres);
         }
         //
         // GET: /Store/Browse?genre=Disco
-        public string Browse(string genre)
+        public ActionResult Browse(string genre)
         {
-            /*Note: We’re using the HttpUtility.HtmlEncode utility method to sanitize the user input.
-            This prevents users from injecting Javascript into our View with a link like / Store / Browse ? Genre =< script > window.location =’http://hackersite.com’</script>.*/
-            string message = HttpUtility.HtmlEncode("Store.Browse, Genre = " + genre);
-            return message;
+            var genreModel = new Genre { Name = genre };
+            return View(genreModel);
         }
         //
         // GET: /Store/Details
-        public string Details(int id)
+        public ActionResult Details(int id)
         {
-            string message = "Store.Details, ID = " + id;
-            return message;
+            var album = new Album { Title = "Album" + id};
+            return View(album);
         }
     }
 }
